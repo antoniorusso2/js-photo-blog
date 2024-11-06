@@ -1,0 +1,15 @@
+:root {
+  --bg-header-color: #ffffff;
+}
+
+body {
+  background-image: url(../img/cork.png);
+}
+
+.my_header {
+  background-image: url(../img/wall.png);
+}
+.my_title {
+  text-transform: uppercase;
+  font-style: italic;
+}
