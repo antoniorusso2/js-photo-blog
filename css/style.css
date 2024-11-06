@@ -1,15 +1,46 @@
-:root {
-  --bg-header-color: #ffffff;
-}
+@import url("https://fonts.googleapis.com/css2?family=Delius&family=Jura:wght@300..700&display=swap");
 
 body {
+  font-family: "Delius", cursive;
+  font-weight: 400;
+  font-style: normal;
+  text-transform: capitalize;
   background-image: url(../img/cork.png);
+  background-size: auto;
+  object-fit: initial;
+  background-position: center;
+}
+
+/* card style */
+.card {
+  max-width: 360px;
+}
+.card img {
+  max-width: 100%;
+  aspect-ratio: 1/1;
 }
 
 .my_header {
   background-image: url(../img/wall.png);
+  /* height: 20vh; */
 }
 .my_title {
+  font-size: 5em;
   text-transform: uppercase;
   font-style: italic;
 }
+
+/* pin in absolute on top center */
+.pin {
+  position: absolute;
+  right: 50%;
+  top: 0.3rem;
+  transform: translate(50%, -50%);
+  width: fit-content;
+}
+
+/* @media screen and (min-width: 300px) {
+  .my_title {
+    font-size: 3.5rem;
+  }
+} */
