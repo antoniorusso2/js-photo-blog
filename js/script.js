@@ -11,6 +11,14 @@
 //Bonus
 //rendi la pagina responsive, in modo che su mobile e tablet le foto si dispongano man mano una sotto l’altra ed il titolo abbia una dimensione adeguata;
 
+// function createDOMElement(tag, classList = [], content = '') {
+
+//   const element = document.createElement(tag);
+
+//   element.classList.add(...classList);
+//   element.innerHTML = content;
+// }
+
 const BASE_URL = 'https://jsonplaceholder.typicode.com/';
 const URL_BODY_IMG = 'photos';
 // const URL_BODY_TITLE = 'photos/title';
@@ -19,9 +27,10 @@ const imgEndpoint = BASE_URL + URL_BODY_IMG;
 // const textEndpoint = BASE_URL + URL_BODY_TEXT;
 // console.log(textEndpoint)
 
-//!TEST IMG ELEMENTO CARD
-//elemento dom
-const imgCard = document.querySelector('.card-img-top');
+//row dove appendere la col con la card
+const rowElement = document.querySelector('.my_parent');
+// console.log(rowElement);
+
 
 axios.get(imgEndpoint, {
   params: {
@@ -29,14 +38,33 @@ axios.get(imgEndpoint, {
   }
 })
   .then((res) => {
-    console.log(res);
-    const imgUrl = res.data[0].url;
+    console.log(res);//obj
 
-    imgCard.src = imgUrl;
+    const response = res.data;//array
+    console.log(response);
+
+    response.forEach(element => {
+      // console.log(element);
+
+      let imgUrl = element.url;
+      let imgTitle = element.title;
+
+      rowElement.innerHTML +=
+        `<div class="col-md-6 col-lg-4">
+          <div class="card mb-5">
+            <img src="${imgUrl}" class="card-img-top p-3" alt="">
+              <div class="card-body">
+                <p class="card-text">${imgTitle}</p>
+              </div>
+          </div>
+        </div>`;
+    });
+
+
 
   })
   .catch((error) => {
-    console.error('error');
+    console.error(error);
   })
 
 
