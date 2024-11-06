@@ -1,13 +1,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Delius&family=Jura:wght@300..700&display=swap");
 
 body {
+  height: 100vh;
   font-family: "Delius", cursive;
   font-weight: 400;
   font-style: normal;
   text-transform: capitalize;
   background-image: url(../img/cork.png);
-  background-size: auto;
-  object-fit: initial;
+  background-repeat: repeat;
   background-position: center;
 }
 
@@ -22,6 +22,9 @@ body {
 
 .my_header {
   background-image: url(../img/wall.png);
+  background-size: contain;
+  background-repeat: repeat;
+  background-position: center;
   /* height: 20vh; */
 }
 .my_title {
