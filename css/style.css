@@ -28,6 +28,7 @@ body {
   font-size: 5em;
   text-transform: uppercase;
   font-style: italic;
+  font-weight: bold;
 }
 
 /* pin in absolute on top center */

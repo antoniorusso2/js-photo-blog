@@ -1,10 +1,29 @@
+// funzioni creazione DOM elementi e img
+function createDOMElement(tag, classList = [], content = '') {
+
+  const element = document.createElement(tag);
+
+  element.classList.add(...classList);
+  element.innerHTML = content;
+
+  return element;
+}
+function createDOMImg(src = '#', classList = [], alt = '') {
+
+  const img = document.createElement('img');
+
+  img.classList.add(...classList);
+  img.src = src;
+  img.alt = alt;
+
+  return img;
+}
 
 const BASE_URL = 'https://jsonplaceholder.typicode.com/';
 const URL_BODY_IMG = 'photos';
-// const URL_BODY_TITLE = 'photos/title';
+
 
 const imgEndpoint = BASE_URL + URL_BODY_IMG;
-// const textEndpoint = BASE_URL + URL_BODY_TEXT;
 // console.log(textEndpoint)
 
 //row dove appendere la col con la card
@@ -41,6 +60,7 @@ axios.get(imgEndpoint, {
             </div>
           </div>
         </div>`;
+
     });
 
   })
