@@ -26,7 +26,11 @@ function createDOMImg(src = "#", classList = [], alt = "") {
 
   return img;
 }
-
+//aggiungi rimuovi determinate classi
+function removeAddClasses(el, remove = [], add = []) {
+  el.classList.remove(...remove);
+  el.classList.add(...add);
+}
 //row dove appendere la col con la card
 const rowElement = document.querySelector(".my_parent");
 
@@ -122,33 +126,47 @@ axios
 
     //ciclo node list ed ascolto evento
     cardElement.forEach((el) => {
+      //mostra immagine corrente
       el.addEventListener("click", () => {
         overlayImgContainer.innerHTML = "";
         //rimuovi d-none dall' overlay
-        overlay.classList.remove("d-none");
+        // overlay.classList.remove("d-none");
+        removeAddClasses(overlay, ["d-none"], ["d-block"]);
 
         //blocca lo scroll della pagina impostando l'overflow su hidden
-        body.classList.remove("overflow-auto");
-        body.classList.add("overflow-hidden");
+
+        // body.classList.remove("overflow-auto");
+        // body.classList.add("overflow-hidden");
+        removeAddClasses(body, ["overflow-auto"], ["overflow-hidden"]);
 
         //immagine da mostrare generata
-        let showImg = createDOMImg(`${el.src}`);
+        let overlayImgUrl = createDOMImg(`${el.src}`);
 
-        overlayImgContainer.appendChild(showImg);
-
-        // let thisImg = createDOMImg(, );
-
-        // overlay.appendChild(cardElement[el]);
+        overlayImgContainer.appendChild(overlayImgUrl);
       });
     });
 
     closeOverlayBtn.addEventListener("click", () => {
       overlay.classList.add("d-none");
 
-      body.classList.remove("overflow-hidden");
-      body.classList.add("overflow-auto");
+      // body.classList.remove("overflow-hidden");
+      // body.classList.add("overflow-auto");
+      removeAddClasses(body, ["overflow-hidden"], ["overflow-auto"]);
+    });
+
+    overlay.addEventListener("click", () => {
+      if (
+        body.classList.contains("overflow-hidden") &&
+        overlay.classList.contains("d-block")
+      ) {
+        removeAddClasses(body, ["overflow-auto"], ["overflow-hidden"]);
+        removeAddClasses(overlay, ["d-block"], ["d-none"]);
+        removeAddClasses(body, ["overflow-hidden"], ["overflow-auto"]);
+      }
     });
   })
   .catch((error) => {
     console.error(error);
   });
+
+// console.log(body.classList.contains("overflow-hidden"));
