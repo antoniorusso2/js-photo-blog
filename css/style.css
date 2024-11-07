@@ -11,12 +11,16 @@ body {
 
 /* card style */
 .card {
+  text-transform: capitalize;
   max-width: 360px;
 }
 .card:hover {
   scale: 1.1;
   rotate: 15deg;
   box-shadow: -20px 20px 30px 5px rgba(30, 30, 30, 50%);
+  .pin {
+    display: none;
+  }
 }
 .card img {
   max-width: 100%;
