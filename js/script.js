@@ -35,6 +35,9 @@ const body = document.querySelector("body");
 const overlay = document.querySelector(".overlay");
 const closeOverlayBtn = document.querySelector(".close_overlay");
 
+//container img overlay
+const overlayImgContainer = document.querySelector(".img_overlay");
+
 const BASE_URL = "https://jsonplaceholder.typicode.com/";
 const URL_BODY_IMG = "photos";
 
@@ -120,8 +123,30 @@ axios
     //ciclo node list ed ascolto evento
     cardElement.forEach((el) => {
       el.addEventListener("click", () => {
-        console.log("click");
+        overlayImgContainer.innerHTML = "";
+        //rimuovi d-none dall' overlay
+        overlay.classList.remove("d-none");
+
+        //blocca lo scroll della pagina impostando l'overflow su hidden
+        body.classList.remove("overflow-auto");
+        body.classList.add("overflow-hidden");
+
+        //immagine da mostrare generata
+        let showImg = createDOMImg(`${el.src}`);
+
+        overlayImgContainer.appendChild(showImg);
+
+        // let thisImg = createDOMImg(, );
+
+        // overlay.appendChild(cardElement[el]);
       });
+    });
+
+    closeOverlayBtn.addEventListener("click", () => {
+      overlay.classList.add("d-none");
+
+      body.classList.remove("overflow-hidden");
+      body.classList.add("overflow-auto");
     });
   })
   .catch((error) => {
