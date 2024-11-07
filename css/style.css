@@ -13,6 +13,11 @@ body {
 .card {
   max-width: 360px;
 }
+.card:hover {
+  scale: 1.1;
+  rotate: 15deg;
+  box-shadow: -20px 20px 30px 5px rgba(30, 30, 30, 50%);
+}
 .card img {
   max-width: 100%;
   aspect-ratio: 1/1;
@@ -43,12 +48,6 @@ body {
   width: fit-content;
 }
 
-/* @media screen and (min-width: 300px) {
-  .my_title {
-    font-size: 3.5rem;
-  }
-} */
-
 .overlay {
   width: 100vw;
   height: 100vh;
@@ -63,17 +62,22 @@ body {
   opacity: 1;
   top: 0;
   left: 0;
-  /* transform: translate(-50%, -50%); */
   max-width: 360px;
   display: flex;
   justify-content: center;
   align-items: center;
   margin: auto;
-  opacity: 1;
 }
 
 .img_overlay img {
-  opacity: 1;
+  display: block;
+  /* position: relative; */
+  max-width: 100%;
+  aspect-ratio: 1/1;
+}
+
+/* animazioni hover */
+.img_overlay img {
   display: block;
   /* position: relative; */
   max-width: 100%;

@@ -81,7 +81,7 @@ axios
       //   </div>`;
 
       //creazione card e col da appendere alla pagina;
-
+      //append degli elementi dato dalla funzione
       const card =
         // col per la card
         createDOMElement(
