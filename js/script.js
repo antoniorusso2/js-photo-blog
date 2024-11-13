@@ -1,8 +1,16 @@
 // funzioni creazione DOM elementi e img
+/**
+ *
+ * @param {any} tag
+ * @param {string Array} classList
+ * @param {string Array} content
+ * @returns
+ */
 function createDOMElement(tag, classList = [], content = []) {
   const element = document.createElement(tag);
-
-  element.classList.add(...classList);
+  if (classList.length > 0) {
+    element.classList.add(...classList);
+  }
 
   if (Array.isArray(content)) {
     for (let i = 0; i < content.length; i++) {
@@ -17,6 +25,14 @@ function createDOMElement(tag, classList = [], content = []) {
   }
   return element;
 }
+
+/**
+ *
+ * @param {url} src
+ * @param {string Array} classList
+ * @param {any} alt
+ * @returns img html element
+ */
 function createDOMImg(src = "#", classList = [], alt = "") {
   const img = document.createElement("img");
 
@@ -26,10 +42,12 @@ function createDOMImg(src = "#", classList = [], alt = "") {
 
   return img;
 }
-//aggiungi rimuovi determinate classi
-function removeAddClasses(el, remove = [], add = []) {
-  el.classList.remove(...remove);
-  el.classList.add(...add);
+
+function toggleOverlay() {
+  overlay.classList.toggle("d-flex");
+  overlay.classList.toggle("d-none");
+  body.classList.toggle("overflow-hidden");
+  body.classList.toggle("overflow-auto");
 }
 //row dove appendere la col con la card
 const rowElement = document.querySelector(".my_parent");
@@ -52,7 +70,7 @@ const imgEndpoint = BASE_URL + URL_BODY_IMG;
 axios
   .get(imgEndpoint, {
     params: {
-      _limit: 6,
+      _limit: 8,
     },
   })
   .then((res) => {
@@ -61,107 +79,69 @@ axios
     const response = res.data; //array
     console.log(response);
 
+    const overlayImg = createDOMElement("img");
+    overlayImgContainer.appendChild(overlayImg);
+
     response.forEach((element) => {
       // console.log(element);
 
       let imgUrl = element.url;
       let imgTitle = element.title;
 
-      // rowElement.innerHTML += `
-      //   <div class="col-md-6 col-lg-4 d-flex justify-content-center">
-      //     <div class="card mb-5 position-relative">
-      //       <div class="pin">
-      //         <img src="./img/pin.svg" alt="">
-      //       </div>
-      //       <img src="${imgUrl}" class="card-img-top p-3" alt="">
-      //       <div class="card-body">
-      //         <p class="card-text fst-italic">${imgTitle}</p>
-      //       </div>
-      //     </div>
-      //   </div>`;
+      //contenuto card, e pin
+      const card = `
+          <div class="card mb-5 position-relative">
+             <div class="pin">
+               <img src="./img/pin.svg" alt="">
+             </div>
+             <img src="${imgUrl}" class="card-img-top p-3" alt="">
+                <div class="card-body">
+               <p class="card-text fst-italic">${imgTitle}</p>
+             </div>
+          </div>`;
 
-      //creazione card e col da appendere alla pagina;
-      //append degli elementi dato dalla funzione
-      const card =
-        // col per la card
-        createDOMElement(
-          "div",
-          ["col-md-6", "col-lg-4", "d-flex", "justify-content-center"],
-          // elemento card
-          [
-            createDOMElement(
-              "div",
-              ["card", "mb-5", "position-relative"],
-              // pin da attaccare alla card
-              [
-                createDOMElement(
-                  "div",
-                  ["pin"],
-                  [createDOMImg("./img/pin.svg", ["card-pin"])]
-                ),
-                // immagine
-                createDOMImg(`${imgUrl}`, ["card-img-top", "p-3"]),
-                // body della card
-                createDOMElement(
-                  "div",
-                  ["card-body"],
-                  [
-                    createDOMElement(
-                      "p",
-                      ["card-text", "fst-italic"],
-                      `${imgTitle}`
-                    ),
-                  ]
-                ),
-              ]
-            ),
-          ]
-        );
-      rowElement.appendChild(card);
-    });
+      // const card = createDOMElement("div", [
+      //   "card",
+      //   "mb-5",
+      //   "position-relative",
+      // ]);
 
-    //presa del'elemento card per aggiunta event
-    const cardElement = document.querySelectorAll(".card-img-top");
-    console.log(cardElement); //Node list
+      // card.innerHTML = cardContent;
 
-    //ciclo node list ed ascolto evento
-    cardElement.forEach((el) => {
-      //mostra immagine corrente
-      el.addEventListener("click", () => {
-        overlayImgContainer.innerHTML = "";
-        //rimuovi d-none dall' overlay
-        // overlay.classList.remove("d-none");
-        removeAddClasses(overlay, ["d-none"], ["d-block"]);
+      //colonna alla quale andare ad appendere la card
+      const col = createDOMElement("div", [
+        "col-md-6",
+        "col-lg-4",
+        "d-flex",
+        "justify-content-center",
+      ]);
 
-        //blocca lo scroll della pagina impostando l'overflow su hidden
+      col.innerHTML = card;
 
-        // body.classList.remove("overflow-auto");
-        // body.classList.add("overflow-hidden");
-        removeAddClasses(body, ["overflow-auto"], ["overflow-hidden"]);
+      rowElement.appendChild(col);
 
-        //immagine da mostrare generata
-        let overlayImgUrl = createDOMImg(`${el.src}`);
+      col.addEventListener("click", (event) => {
+        // console.log(event.target);
+        // overlayImgContainer.innerHTML = "";
 
-        overlayImgContainer.appendChild(overlayImgUrl);
+        if (event.target.tagName === "IMG") {
+          toggleOverlay();
+          overlayImg.src = imgUrl;
+        }
+
+        // overlayImg.src = cardImg.src;
       });
     });
 
-    closeOverlayBtn.addEventListener("click", () => {
-      overlay.classList.add("d-none");
+    closeOverlayBtn.addEventListener("click", (event) => {
+      event.stopPropagation();
 
-      // body.classList.remove("overflow-hidden");
-      // body.classList.add("overflow-auto");
-      removeAddClasses(body, ["overflow-hidden"], ["overflow-auto"]);
+      toggleOverlay();
     });
 
-    overlay.addEventListener("click", () => {
-      if (
-        body.classList.contains("overflow-hidden") &&
-        overlay.classList.contains("d-block")
-      ) {
-        removeAddClasses(body, ["overflow-auto"], ["overflow-hidden"]);
-        removeAddClasses(overlay, ["d-block"], ["d-none"]);
-        removeAddClasses(body, ["overflow-hidden"], ["overflow-auto"]);
+    overlay.addEventListener("click", (event) => {
+      if (event.target.tagName !== "IMG") {
+        toggleOverlay();
       }
     });
   })
